@@ -221,6 +221,7 @@ class YoloObjectDetector
   int demoFrame_ = 3;
   float **predictions_;
   int demoIndex_ = 0;
+  int waitDurInactive_ = 5;
   int demoDone_ = 0;
   float *avg_;
   int demoTotal_ = 0;

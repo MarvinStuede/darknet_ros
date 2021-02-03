@@ -95,6 +95,8 @@ void YoloObjectDetector::init()
   std::string configModel;
   std::string weightsModel;
 
+  nodeHandle_.param("others/wait_dur_inactive", waitDurInactive_, 5);
+  
   // Threshold of object detection.
   nodeHandle_.param("yolo_model/threshold/value", YOLO_THRESH, 0.5);
 
@@ -505,6 +507,7 @@ void YoloObjectDetector::setupNetwork(char *cfgfile, char *weightfile, char *dat
 void YoloObjectDetector::yolo()
 {
   const auto waitDuration = std::chrono::milliseconds((long)2000);
+  const auto waitInactive = std::chrono::milliseconds(waitDurInactive_);
 
   while (!getImageStatus()) 
   {
@@ -591,6 +594,7 @@ void YoloObjectDetector::yolo()
     else
     {
       fetchThread.join();  
+      std::this_thread::sleep_for(waitInactive);
     }
 
 
